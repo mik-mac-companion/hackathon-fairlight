@@ -329,6 +329,30 @@
 		{
 			"Name": "GameplayBehaviors",
 			"Enabled": true
+		},
+		{
+			"Name": "PlayFab",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/217fdf581b784571af03d3fb6580368f"
+		},
+		{
+			"Name": "OnlineSubsystemPlayFab",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"XB1",
+				"WinGDK",
+				"XSX",
+				"Win64",
+				"Switch",
+				"PS4",
+				"PS5"
+			],
+			"PlatformAllowList": [
+				"XB1",
+				"WinGDK",
+				"XSX",
+				"Win64"
+			]
 		}
 	],
 	"EpicSampleNameHash": "451731683"
