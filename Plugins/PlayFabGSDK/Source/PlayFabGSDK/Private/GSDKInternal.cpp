@@ -146,7 +146,7 @@ void FGSDKInternal::HeartbeatAsyncTaskFunction(FString infoUrl)
 	Request->SetContentAsString(infoString);
 
 	Request->ProcessRequest();
-	FHttpModule::Get().GetHttpManager().Flush( EHttpFlushReason::Default );// true);
+	FHttpModule::Get().GetHttpManager().Flush(EHttpFlushReason::Default);
 
 	const FHttpResponsePtr Response = Request->GetResponse();
 	if (Response.IsValid() && Response->GetResponseCode() >= 300)

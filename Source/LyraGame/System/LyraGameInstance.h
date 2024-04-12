@@ -31,6 +31,11 @@ protected:
 	virtual void Init() override;
 	virtual void Shutdown() override;
 
+	UFUNCTION()	void OnGSDKShutdown();
+	UFUNCTION()	bool OnGSDKHealthCheck();
+	UFUNCTION()	void OnGSDKServerActive();
+	UFUNCTION()	void OnGSDKReadyForPlayers();
+
 	void OnPreClientTravelToSession(FString& URL);
 
 	/** A hard-coded encryption key used to try out the encryption code. This is NOT SECURE, do not use this technique in production! */

@@ -44,7 +44,8 @@ public class LyraGame : ModuleRules
 				"ControlFlows",
 				"PropertyPath",
 				"OnlineSubsystem",
-				"OnlineSubsystemUtils"
+				"OnlineSubsystemUtils",
+				"PlayFabGSDK"
 			}
 		);
 

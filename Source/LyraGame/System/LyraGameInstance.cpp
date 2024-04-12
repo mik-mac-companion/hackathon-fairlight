@@ -1,11 +1,14 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraGameInstance.h"
+#include "PlayfabGSDK.h"
+#include "GSDKUtils.h"
 
 #include "CommonSessionSubsystem.h"
 #include "CommonUserSubsystem.h"
 #include "Components/GameFrameworkComponentManager.h"
 #include "HAL/IConsoleManager.h"
+#include "HAL/PlatformMisc.h"
 #include "LyraGameplayTags.h"
 #include "Player/LyraPlayerController.h"
 #include "Player/LyraLocalPlayer.h"
@@ -79,8 +82,7 @@ namespace Lyra
 #endif // UE_WITH_DTLS
 };
 
-ULyraGameInstance::ULyraGameInstance(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+ULyraGameInstance::ULyraGameInstance(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 }
 
@@ -111,6 +113,49 @@ void ULyraGameInstance::Init()
 	{
 		SessionSubsystem->OnPreClientTravelEvent.AddUObject(this, &ULyraGameInstance::OnPreClientTravelToSession);
 	}
+
+	if (IsDedicatedServerInstance())
+	{
+#if UE_SERVER
+		UGSDKUtils::SetDefaultServerHostPort();
+#endif
+
+		FOnGSDKShutdown_Dyn OnGsdkShutdown;
+		OnGsdkShutdown.BindDynamic(this, &ULyraGameInstance::OnGSDKShutdown);
+		FOnGSDKHealthCheck_Dyn OnGsdkHealthCheck;
+		OnGsdkHealthCheck.BindDynamic(this, &ULyraGameInstance::OnGSDKHealthCheck);
+		FOnGSDKServerActive_Dyn OnGSDKServerActive;
+		OnGSDKServerActive.BindDynamic(this, &ULyraGameInstance::OnGSDKServerActive);
+		FOnGSDKReadyForPlayers_Dyn OnGSDKReadyForPlayers;
+		OnGSDKReadyForPlayers.BindDynamic(this, &ULyraGameInstance::OnGSDKReadyForPlayers);
+
+		UGSDKUtils::RegisterGSDKShutdownDelegate(OnGsdkShutdown);
+		UGSDKUtils::RegisterGSDKHealthCheckDelegate(OnGsdkHealthCheck);
+		UGSDKUtils::RegisterGSDKServerActiveDelegate(OnGSDKServerActive);
+		UGSDKUtils::RegisterGSDKReadyForPlayers(OnGSDKReadyForPlayers);
+
+		UGSDKUtils::ReadyForPlayers();
+	}
+}
+
+void ULyraGameInstance::OnGSDKShutdown()
+{
+	FPlatformMisc::RequestExit(false);
+}
+
+bool ULyraGameInstance::OnGSDKHealthCheck()
+{
+	return true;
+}
+
+void ULyraGameInstance::OnGSDKServerActive()
+{
+	// Empty
+}
+
+void ULyraGameInstance::OnGSDKReadyForPlayers()
+{
+	// Empty
 }
 
 void ULyraGameInstance::Shutdown()

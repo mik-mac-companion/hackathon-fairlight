@@ -75,3 +75,5 @@ Plugins/GameFeatures/*/Intermediate/Build/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+.vsconfig

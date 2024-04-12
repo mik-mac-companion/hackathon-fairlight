@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.3",
+	"EngineAssociation": "{2467407F-4A1D-AC22-0D59-628CBCB1D7EF}",
 	"Category": "Samples",
 	"Description": "",
 	"Modules": [
@@ -356,7 +356,7 @@
 		},
 		{
 			"Name": "PlayFabGSDK",
-			"Enabled": false
+			"Enabled": true
 		}
 	],
 	"EpicSampleNameHash": "451731683"
